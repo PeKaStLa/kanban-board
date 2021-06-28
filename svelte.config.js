@@ -5,7 +5,8 @@ import node from '@sveltejs/adapter-node';
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
-	preprocess: preprocess(),
+
+	preprocess: preprocess(), //originally
 
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
@@ -16,7 +17,8 @@ const config = {
 
 export default {
 	kit: {
-		adapter: node({ out: 'kanban-output-directory' })
+		adapter: node({ out: 'kanban-output' })
+
 	}
 };
 

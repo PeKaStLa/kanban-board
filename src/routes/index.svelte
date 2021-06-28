@@ -1,3 +1,4 @@
+
 <svelte:head>
 	<title>Kanban-Board</title>
 </svelte:head>
@@ -13,13 +14,13 @@
 	let divDone;
 	let autoscroll;
 
-	let textfieldTodo: string;
-	let textfieldProgress: string;
-	let textfieldDone: string;
+	let textfieldTodo;
+	let textfieldProgress;
+	let textfieldDone;
 
-	let todo: string[] = [];
-	let progress: string[] = [];
-	let done: string[] = [];
+	let todo = [];
+	let progress = [];
+	let done = [];
 
 	beforeUpdate(() => {
 		autoscroll = divTodo && divTodo.offsetHeight + divTodo.scrollTop > divTodo.scrollHeight - 20;
@@ -35,7 +36,7 @@
 		if (autoscroll) divDone.scrollTo(0, divDone.scrollHeight);
 	});
 
-	function addTodo(item: string) {
+	function addTodo(item) {
 		if (item != undefined && item != '') {
 			todo.push(item);
 			todo = todo;
@@ -43,7 +44,7 @@
 		}
 	}
 
-	function addProgress(item: string) {
+	function addProgress(item) {
 		if (item != undefined && item != '') {
 			progress.push(item);
 			progress = progress;
@@ -51,7 +52,7 @@
 		}
 	}
 
-	function addDone(item: string) {
+	function addDone(item) {
 		if (item != undefined && item != '') {
 			done.push(item);
 			done = done;

@@ -8,7 +8,6 @@
 	import { beforeUpdate, afterUpdate } from 'svelte';
 	import { is_empty } from 'svelte/internal';
 	
-
 	let divTodo;
 	let divProgress;
 	let divDone;

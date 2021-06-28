@@ -73,7 +73,7 @@
 </script>
 
 <div class="">
-	Make reusable columns!
+	<!--Make reusable columns!-->
 	<div
 		class="  px-2  h-5/6   fixed  z-50 
 	 rounded-md content-start w-full 

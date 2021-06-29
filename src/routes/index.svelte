@@ -4,16 +4,43 @@
 	import { is_empty } from 'svelte/internal';
 	import { DynamoDB } from '@aws-sdk/client-dynamodb';
 
-	//write DynamoDB-Tables to the console // test // does WORK!!!!!!
+
+	
+	/*
+	var params = {
+  Key: {
+   "type": {
+     S: "todo"
+    }
+  }, 
+  TableName: "kanban"
+ };
 	(async () => {
-		const client = new DynamoDB({ region: 'eu-central-1' });
 		try {
+			const client = new DynamoDB({ region: 'eu-central-1' });
+			const results = await client.getItem(params);
+			console.log(results.Item.text.S);
+		} catch (err) {
+			console.error(err);
+		}
+	})();
+	*/
+
+	//write DynamoDB-Tables to the console // test // does WORK!!!!!!
+	/*
+	(async () => {
+		try {
+			const client = new DynamoDB({ region: 'eu-central-1' });
 			const results = await client.listTables({});
 			console.log(results.TableNames.join('\n'));
 		} catch (err) {
 			console.error(err);
 		}
 	})();
+	*/
+
+
+
 
 	let _DIV_TODO;
 	let _DIV_PROGRESS;
@@ -23,7 +50,7 @@
 	let _TEXTFIELD_TODO;
 	let _TEXTFIELD_PROGRESS;
 	let _TEXTFIELD_DONE;
-//	let todo: string[] = [];
+
 	let _TODO = [];
 	let _PROGRESS = [];
 	let _DONE = [];
@@ -232,7 +259,9 @@ rounded-t-md border-gray-500 p-1 "
 				</div>
 			</div>
 		</div>
+	
 	</div>
+	
 </div>
 
 <style>

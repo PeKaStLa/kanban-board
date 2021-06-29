@@ -1,88 +1,89 @@
+<script lang="ts">
+	import Item from './item.svelte';
+	import { beforeUpdate, afterUpdate } from 'svelte';
+	import { is_empty } from 'svelte/internal';
+	import { DynamoDB } from '@aws-sdk/client-dynamodb';
+
+	
+	(async () => {
+		const client = new DynamoDB({ region: 'eu-central-1' });
+		try {
+			const results = await client.listTables({});
+			console.log(results.TableNames.join('\n'));
+		} catch (err) {
+			console.error(err);
+		}
+	})();
+
+	let _DIV_TODO;
+	let _DIV_PROGRESS;
+	let _DIV_DONE;
+	let _AUTOSCROLL;
+
+	let _TEXTFIELD_TODO;
+	let _TEXTFIELD_PROGRESS;
+	let _TEXTFIELD_DONE;
+//	let todo: string[] = [];
+	let _TODO = [];
+	let _PROGRESS = [];
+	let _DONE = [];
+
+	beforeUpdate(() => {
+		_AUTOSCROLL =
+			_DIV_TODO && _DIV_TODO.offsetHeight + _DIV_TODO.scrollTop > _DIV_TODO.scrollHeight - 20;
+		_AUTOSCROLL =
+			_DIV_PROGRESS &&
+			_DIV_PROGRESS.offsetHeight + _DIV_PROGRESS.scrollTop > _DIV_PROGRESS.scrollHeight - 20;
+		_AUTOSCROLL =
+			_DIV_DONE && _DIV_DONE.offsetHeight + _DIV_DONE.scrollTop > _DIV_DONE.scrollHeight - 20;
+	});
+
+	afterUpdate(() => {
+		if (_AUTOSCROLL) _DIV_TODO.scrollTo(0, _DIV_TODO.scrollHeight);
+		if (_AUTOSCROLL) _DIV_PROGRESS.scrollTo(0, _DIV_PROGRESS.scrollHeight);
+		if (_AUTOSCROLL) _DIV_DONE.scrollTo(0, _DIV_DONE.scrollHeight);
+	});
+
+	function _add_todo(_ITEM) {
+		if (_ITEM != undefined && _ITEM != '') {
+			_TODO.push(_ITEM);
+			_TODO = _TODO;
+			_TEXTFIELD_TODO = '';
+		}
+	}
+
+	function _add_progress(_ITEM) {
+		if (_ITEM != undefined && _ITEM != '') {
+			_PROGRESS.push(_ITEM);
+			_PROGRESS = _PROGRESS;
+			_TEXTFIELD_PROGRESS = '';
+		}
+	}
+
+	function _add_done(_ITEM) {
+		if (_ITEM != undefined && _ITEM != '') {
+			_DONE.push(_ITEM);
+			_DONE = _DONE;
+			_TEXTFIELD_DONE = '';
+		}
+	}
+
+	const _on_key_press_todo = (e) => {
+		if (e.charCode === 13) _add_todo(_TEXTFIELD_TODO);
+	};
+
+	const _on_key_press_progress = (e) => {
+		if (e.charCode === 13) _add_progress(_TEXTFIELD_PROGRESS);
+	};
+
+	const _on_key_press_done = (e) => {
+		if (e.charCode === 13) _add_done(_TEXTFIELD_DONE);
+	};
+</script>
 
 <svelte:head>
 	<title>Kanban-Board</title>
 </svelte:head>
-
-<script lang="ts">
-
-	import Item from './item.svelte';
-	import { beforeUpdate, afterUpdate } from 'svelte';
-	import { is_empty } from 'svelte/internal';
-	import { DynamoDB } from "@aws-sdk/client-dynamodb";
-
-	(async () => {
-  const client = new DynamoDB({ region: "eu-central-1" });
-  try {
-    const results = await client.listTables({});
-    console.log(results.TableNames.join("\n"));
-  } catch (err) {
-    console.error(err);
-  }
-})();
-
-	let divTodo;
-	let divProgress;
-	let divDone;
-	let autoscroll;
-
-	let textfieldTodo;
-	let textfieldProgress;
-	let textfieldDone;
-
-	let todo = [];
-	let progress = [];
-	let done = [];
-
-	beforeUpdate(() => {
-		autoscroll = divTodo && divTodo.offsetHeight + divTodo.scrollTop > divTodo.scrollHeight - 20;
-		autoscroll =
-			divProgress &&
-			divProgress.offsetHeight + divProgress.scrollTop > divProgress.scrollHeight - 20;
-		autoscroll = divDone && divDone.offsetHeight + divDone.scrollTop > divDone.scrollHeight - 20;
-	});
-
-	afterUpdate(() => {
-		if (autoscroll) divTodo.scrollTo(0, divTodo.scrollHeight);
-		if (autoscroll) divProgress.scrollTo(0, divProgress.scrollHeight);
-		if (autoscroll) divDone.scrollTo(0, divDone.scrollHeight);
-	});
-
-	function addTodo(item) {
-		if (item != undefined && item != '') {
-			todo.push(item);
-			todo = todo;
-			textfieldTodo = '';
-		}
-	}
-
-	function addProgress(item) {
-		if (item != undefined && item != '') {
-			progress.push(item);
-			progress = progress;
-			textfieldProgress = '';
-		}
-	}
-
-	function addDone(item) {
-		if (item != undefined && item != '') {
-			done.push(item);
-			done = done;
-			textfieldDone = '';
-		}
-	}
-
-	const onKeyPressTodo = (e) => {
-		if (e.charCode === 13) addTodo(textfieldTodo);
-	};
-
-	const onKeyPressProgress = (e) => {
-		if (e.charCode === 13) addProgress(textfieldProgress);
-	};
-
-	const onKeyPressDone = (e) => {
-		if (e.charCode === 13) addDone(textfieldDone);
-	};
-</script>
 
 <div class="">
 	<!--Make reusable columns!-->
@@ -112,7 +113,7 @@
 
 		<div
 			class="p-2 col-span-1 mr-2 bg-gray-300 
- border-l-2 border-r-2 border-gray-500 {is_empty(todo) ? 'rounded-b-md  border-b-2' : ''}"
+ border-l-2 border-r-2 border-gray-500 {is_empty(_TODO) ? 'rounded-b-md  border-b-2' : ''}"
 		>
 			<div
 				class="text-center  overflow-hidden rounded-md 
@@ -121,19 +122,21 @@ rounded-t-md border-gray-500 p-1 "
 			>
 				<div class="inline-block   rounded-sm p-2">
 					<input
-						on:keypress={onKeyPressTodo}
-						bind:value={textfieldTodo}
-						placeholder="enter an item"
+						on:keypress={_on_key_press_todo}
+						bind:value={_TEXTFIELD_TODO}
+						placeholder="enter an _ITEM"
 					/>
 				</div>
 				<div class="inline-block">
-					<button class="bg-gray-100 p-2" on:click={() => addTodo(textfieldTodo)}>Add Item</button>
+					<button class="bg-gray-100 p-2" on:click={() => _add_todo(_TEXTFIELD_TODO)}
+						>Add Item</button
+					>
 				</div>
 			</div>
 		</div>
 		<div
 			class="p-2 col-span-1 mr-2 bg-gray-300 
- border-l-2 border-r-2 border-gray-500 {is_empty(progress) ? 'rounded-b-md  border-b-2' : ''}"
+ border-l-2 border-r-2 border-gray-500 {is_empty(_PROGRESS) ? 'rounded-b-md  border-b-2' : ''}"
 		>
 			<div
 				class="text-center  overflow-hidden rounded-md 
@@ -142,13 +145,13 @@ rounded-t-md border-gray-500 p-1 "
 			>
 				<div class="inline-block   rounded-sm p-2">
 					<input
-						on:keypress={onKeyPressProgress}
-						bind:value={textfieldProgress}
-						placeholder="enter an item"
+						on:keypress={_on_key_press_progress}
+						bind:value={_TEXTFIELD_PROGRESS}
+						placeholder="enter an _ITEM"
 					/>
 				</div>
 				<div class="inline-block">
-					<button class="bg-gray-100 p-2" on:click={() => addProgress(textfieldProgress)}
+					<button class="bg-gray-100 p-2" on:click={() => _add_progress(_TEXTFIELD_PROGRESS)}
 						>Add Item</button
 					>
 				</div>
@@ -157,7 +160,7 @@ rounded-t-md border-gray-500 p-1 "
 
 		<div
 			class="p-2 col-span-1  bg-gray-300 
- border-l-2 border-r-2 border-gray-500 {is_empty(done) ? 'rounded-b-md  border-b-2' : ''}"
+ border-l-2 border-r-2 border-gray-500 {is_empty(_DONE) ? 'rounded-b-md  border-b-2' : ''}"
 		>
 			<div
 				class="text-center  overflow-hidden rounded-md 
@@ -166,31 +169,30 @@ rounded-t-md border-gray-500 p-1 "
 			>
 				<div class="inline-block   rounded-sm p-2">
 					<input
-						on:keypress={onKeyPressDone}
-						bind:value={textfieldDone}
-						placeholder="enter an item"
+						on:keypress={_on_key_press_done}
+						bind:value={_TEXTFIELD_DONE}
+						placeholder="enter an _ITEM"
 					/>
 				</div>
 				<div class="inline-block">
-					<button class="bg-gray-100 p-2" on:click={() => addDone(textfieldDone)}>Add Item</button>
+					<button class="bg-gray-100 p-2" on:click={() => _add_done(_TEXTFIELD_DONE)}
+						>Add Item</button
+					>
 				</div>
 			</div>
 		</div>
 
 		<div class="max-h-full 	overflow-y-auto rounded-b-md ">
 			<div
-				bind:this={divTodo}
-				class="  px-1 {is_empty(todo) ? '' : 'border-b-2'}   border-r-2 border-l-2 rounded-b-md  
+				bind:this={_DIV_TODO}
+				class="  px-1 {is_empty(_TODO) ? '' : 'border-b-2'}   border-r-2 border-l-2 rounded-b-md  
 				bg-gray-300  
 			  border-gray-500 mr-2  max-h-full    	overflow-y-auto"
 			>
-				<div
-					class="  rounded-md 
-		   col-span-1  "
-				>
-					{#if !is_empty(todo)}
-						{#each todo as item}
-							<Item {item} />
+				<div class="  rounded-md 		   col-span-1  ">
+					{#if !is_empty(_TODO)}
+						{#each _TODO as _ITEM}
+							<Item {_ITEM} />
 						{/each}
 					{/if}
 				</div>
@@ -198,16 +200,16 @@ rounded-t-md border-gray-500 p-1 "
 		</div>
 		<div class="max-h-full 	overflow-y-auto ">
 			<div
-				bind:this={divProgress}
-				class="  px-1  {is_empty(progress)
+				bind:this={_DIV_PROGRESS}
+				class="  px-1  {is_empty(_PROGRESS)
 					? ''
 					: 'border-b-2'}  border-r-2 border-l-2 rounded-b-md  bg-gray-300  
 				border-gray-500 mr-2  max-h-full    	overflow-y-auto"
 			>
 				<div class=" rounded-md   		col-span-1  ">
-					{#if !is_empty(progress)}
-						{#each progress as item}
-							<Item {item} />
+					{#if !is_empty(_PROGRESS)}
+						{#each _PROGRESS as _ITEM}
+							<Item {_ITEM} />
 						{/each}
 					{/if}
 				</div>
@@ -215,16 +217,16 @@ rounded-t-md border-gray-500 p-1 "
 		</div>
 		<div class="max-h-full 	overflow-y-auto  ">
 			<div
-				bind:this={divDone}
-				class=" {is_empty(done)
+				bind:this={_DIV_DONE}
+				class=" {is_empty(_DONE)
 					? ''
 					: 'border-b-2'}  px-1   border-r-2 border-l-2 rounded-b-md bg-gray-300  
 				border-gray-500   max-h-full     	overflow-y-auto"
 			>
 				<div class=" rounded-md col-span-1  ">
-					{#if !is_empty(done)}
-						{#each done as item}
-							<Item {item} />
+					{#if !is_empty(_DONE)}
+						{#each _DONE as _ITEM}
+							<Item {_ITEM} />
 						{/each}
 					{/if}
 				</div>

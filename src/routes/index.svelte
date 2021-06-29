@@ -4,7 +4,7 @@
 	import { is_empty } from 'svelte/internal';
 	import { DynamoDB } from '@aws-sdk/client-dynamodb';
 
-	
+	//write DynamoDB-Tables to the console // test // does WORK!!!!!!
 	(async () => {
 		const client = new DynamoDB({ region: 'eu-central-1' });
 		try {

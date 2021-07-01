@@ -2,45 +2,6 @@
 	import Item from './item.svelte';
 	import { beforeUpdate, afterUpdate } from 'svelte';
 	import { is_empty } from 'svelte/internal';
-	import { DynamoDB } from '@aws-sdk/client-dynamodb';
-
-
-	
-	/*
-	var params = {
-  Key: {
-   "type": {
-     S: "todo"
-    }
-  }, 
-  TableName: "kanban"
- };
-	(async () => {
-		try {
-			const client = new DynamoDB({ region: 'eu-central-1' });
-			const results = await client.getItem(params);
-			console.log(results.Item.text.S);
-		} catch (err) {
-			console.error(err);
-		}
-	})();
-	*/
-
-	//write DynamoDB-Tables to the console // test // does WORK!!!!!!
-	/*
-	(async () => {
-		try {
-			const client = new DynamoDB({ region: 'eu-central-1' });
-			const results = await client.listTables({});
-			console.log(results.TableNames.join('\n'));
-		} catch (err) {
-			console.error(err);
-		}
-	})();
-	*/
-
-
-
 
 	let _DIV_TODO;
 	let _DIV_PROGRESS;
@@ -259,9 +220,7 @@ rounded-t-md border-gray-500 p-1 "
 				</div>
 			</div>
 		</div>
-	
 	</div>
-	
 </div>
 
 <style>

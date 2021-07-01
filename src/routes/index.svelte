@@ -2,6 +2,7 @@
 	import Item from './item.svelte';
 	import { beforeUpdate, afterUpdate } from 'svelte';
 	import { is_empty } from 'svelte/internal';
+	import { onMount } from 'svelte';
 
 	let _DIV_TODO;
 	let _DIV_PROGRESS;
@@ -15,6 +16,19 @@
 	let _TODO = [];
 	let _PROGRESS = [];
 	let _DONE = [];
+
+let data;
+	onMount(async () => {
+		const _RES_TODO = await fetch('http://peterstadler.com:7000/todo');
+		const _RES_TODO_JSON = await _RES_TODO.json();
+		_TODO.push(_RES_TODO_JSON[0].text);
+		_TODO = _TODO;
+
+		const _RES_PROGRESS = await fetch('http://peterstadler.com:7000/progress');
+		const _RES_PROGRESS_JSON = await _RES_PROGRESS.json();
+		_PROGRESS.push(_RES_PROGRESS_JSON[0].text);
+		_PROGRESS = _PROGRESS;
+	});
 
 	beforeUpdate(() => {
 		_AUTOSCROLL =

@@ -126,7 +126,7 @@ rounded-t-md border-gray-500 p-1 "
 					<input
 						on:keypress={_on_key_press_todo}
 						bind:value={_TEXTFIELD_TODO}
-						placeholder="enter an _ITEM"
+						placeholder="enter an Item"
 					/>
 				</div>
 				<div class="inline-block">
@@ -149,7 +149,7 @@ rounded-t-md border-gray-500 p-1 "
 					<input
 						on:keypress={_on_key_press_progress}
 						bind:value={_TEXTFIELD_PROGRESS}
-						placeholder="enter an _ITEM"
+						placeholder="enter an Item"
 					/>
 				</div>
 				<div class="inline-block">
@@ -173,7 +173,7 @@ rounded-t-md border-gray-500 p-1 "
 					<input
 						on:keypress={_on_key_press_done}
 						bind:value={_TEXTFIELD_DONE}
-						placeholder="enter an _ITEM"
+						placeholder="enter an Item"
 					/>
 				</div>
 				<div class="inline-block">

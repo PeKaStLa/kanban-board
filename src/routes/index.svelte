@@ -19,73 +19,24 @@
 
 	async function _get_init_items(_ARR, _URL, _URL_PARAM) {
 		const _RES = await fetch(_URL + _URL_PARAM);
-		if (_RES.status == 200){
 		const _RES_JSON = await _RES.json();
-		console.log(_RES_JSON[0].text)
-
-		_ARR = [..._ARR, _RES_JSON[0].text];
-		
-		//_ARR.push(_RES_JSON[0].text);
-		//_ARR = _ARR;
-
-		console.log(_URL_PARAM + " status = 200")
+		if (_RES.status == 200) {
+			_ARR.push(_RES_JSON[0].text);
+			_TODO = _TODO;
+			_PROGRESS = _PROGRESS;
+			_DONE = _DONE;
+			console.log(_URL_PARAM + ' - status: 200');
 		}
-		if (_RES.status == 400){
-		console.log(_URL_PARAM +  " status = 400")
+		if (_RES.status == 400) {
+			console.log(_URL_PARAM + ' - status: 400');
+			console.log(_URL_PARAM + ' - error: ', _RES_JSON);
 		}
-		_ARR = _ARR;
 	}
 
 	onMount(async () => {
-	
-	/*	
-	_get_init_items(_TODO, 'http://peterstadler.com:7000/', 'todo') 
-	_get_init_items(_PROGRESS, 'http://peterstadler.com:7000/', 'progress') 
-	_get_init_items(_DONE, 'http://localhost:8000/', 'done') 
-
-	_get_init_items(_TODO, 'http://peterstadler.com:7000/', 'todo') 
-	_get_init_items(_PROGRESS, 'http://peterstadler.com:7000/', 'progress') 
-	_get_init_items(_DONE, 'http://localhost:8000/', 'done') 
-	_get_init_items(_DONE, 'http://localhost:8000/', 'done') 
-*/
-		const _RES_TODO = await fetch('http://peterstadler.com:7000/todo');
-		if (_RES_TODO.status == 200){
-		const _RES_TODO_JSON = await _RES_TODO.json();
-		console.log(_RES_TODO_JSON[0].text)
-	_TODO = [..._TODO, _RES_TODO_JSON[0].text];
-		console.log("todo status = 200")
-		}
-		if (_RES_TODO.status == 400){
-console.log("todo status = 400")
-		}
-
-
-		const _RES_PROGRESS = await fetch('http://peterstadler.com:7000/progress');
-		if (_RES_PROGRESS.status == 200){
-		const _RES_PROGRESS_JSON = await _RES_PROGRESS.json();
-		console.log(_RES_PROGRESS_JSON[0].text)
-		_PROGRESS = [..._PROGRESS, _RES_PROGRESS_JSON[0].text];
-		console.log("progress status = 200")
-		}
-		if (_RES_PROGRESS.status == 400){
-console.log("progress status = 400")
-		}
-
-		//const _RES_DONE = await fetch('http://peterstadler.com:7000/done');
-		const _RES_DONE = await fetch('http://localhost:8000/done');
-		if (_RES_DONE.status == 200){
-		const _RES_DONE_JSON = await _RES_DONE.json();
-		console.log(_RES_DONE_JSON[0].text)
-		_DONE = [..._DONE, _RES_DONE_JSON[0].text];
-		console.log("done status = 200")
-		}
-		if (_RES_DONE.status == 400){
-console.log("done status = 400")
-		}
-	
-		console.log(_TODO)
-		console.log(_PROGRESS)
-		console.log(_DONE)
+		_get_init_items(_TODO, 'http://peterstadler.com:7000/', 'todo');
+		_get_init_items(_PROGRESS, 'http://peterstadler.com:7000/', 'progress');
+		_get_init_items(_DONE, 'http://localhost:8000/', 'done');
 	});
 
 	beforeUpdate(() => {

@@ -156,7 +156,8 @@ border-gray-500 p-1 m-2"
 		</div>
 		<div
 			class="col-span-1 border-t-2 bg-gray-300  border-l-2 border-r-2 
-			rounded-t-md border-gray-500  {is_empty(_DONE) ? 'rounded-b-md  border-b-2' : ''}"
+			rounded-t-md border-gray-500 
+			 {is_empty(_DONE) ? 'rounded-b-md  border-b-2' : ''}"
 		>
 		<h2 class=" overflow-ellipsis text-center overflow-hidden  text-2xl">Done:</h2>
 			<div
@@ -180,10 +181,11 @@ border-gray-500 p-1 m-2"
 			</div>
 		</div>
 
-		<div class="max-h-full 	overflow-y-auto rounded-b-md ">
+		<div class="max-h-full 	overflow-y-auto  ">
 			<div
 				bind:this={_DIV_TODO}
-				class="  px-1 {is_empty(_TODO) ? '' : 'border-b-2'}   border-r-2 border-l-2 rounded-b-md  
+				class="  px-1 {is_empty(_TODO) ? '' : 'border-b-2'} 
+				  border-r-2 border-l-2 rounded-b-md  
 				bg-gray-300  
 			  border-gray-500 mr-2  max-h-full    	overflow-y-auto"
 			>

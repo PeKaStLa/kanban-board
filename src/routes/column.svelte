@@ -13,6 +13,7 @@
 	let _DIV;
 	let _AUTOSCROLL;
 
+	let _TEXTFIELD_VALUE;
 	let _TEXTFIELD;
 
 	async function _get_init_items(_URL, _URL_PARAM) {
@@ -45,12 +46,12 @@
 	function _add(_ITEM) {
 		if (_ITEM != undefined && _ITEM != '') {
 			_ARR = [..._ARR, _ITEM];
-			_TEXTFIELD = '';
+			_TEXTFIELD_VALUE = '';
 		}
 	}
 
 	const _on_key_press = (e) => {
-		if (e.charCode === 13) _add(_TEXTFIELD);
+		if (e.charCode === 13) _add(_TEXTFIELD_VALUE);
 	};
 </script>
 
@@ -78,14 +79,17 @@
 	>
 		<div class="inline 	   rounded-sm p-1">
 			<input
+			bind:this={_TEXTFIELD}
 				class="rounded-sm w-1/2"
 				on:keypress={_on_key_press}
-				bind:value={_TEXTFIELD}
+				bind:value={_TEXTFIELD_VALUE}
 				placeholder="enter an Item"
 			/>
 		</div>
 		<div class="inline 	">
-			<button class="bg-gray-800 text-white rounded-md p-1 m-1 " on:click={() => _add(_TEXTFIELD)}
+			<button 
+			class="bg-gray-800 text-white rounded-md p-1 m-1 "
+			 on:click={() => {_add(_TEXTFIELD_VALUE); _TEXTFIELD.focus();}}
 				>Add Item</button
 			>
 		</div>

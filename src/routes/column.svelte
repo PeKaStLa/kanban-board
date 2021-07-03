@@ -54,7 +54,7 @@
 	};
 </script>
 
-<div class=" p-1 sm:w-1/3  flex-auto sm:h-35/40 lg:h-36/40	">
+<div class=" p-1 sm:w-1/3  flex-auto sm:h-36/40	">
 	<div
 		class="truncate text-white  rounded-t-md 
      py-1 
@@ -74,18 +74,17 @@
 		</div>
 	{/if}
 	<div
-		class="text-center  rounded-b-md 
- bg-gray-400  p-1"
+		class="text-center  rounded-b-md  bg-gray-400  p-1" 
 	>
-		<div class="inline-block   rounded-sm p-1">
+		<div class="inline 	   rounded-sm p-1">
 			<input
-				class="rounded-sm w-full"
+				class="rounded-sm w-1/2"
 				on:keypress={_on_key_press}
 				bind:value={_TEXTFIELD}
 				placeholder="enter an Item"
 			/>
 		</div>
-		<div class="inline-block">
+		<div class="inline 	">
 			<button class="bg-gray-800 text-white rounded-md p-1 m-1 " on:click={() => _add(_TEXTFIELD)}
 				>Add Item</button
 			>

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Item from './item.svelte';
-	import Column from './column.svelte';
 	import { beforeUpdate, afterUpdate } from 'svelte';
 	import { is_empty, select_option } from 'svelte/internal';
 	import { onMount } from 'svelte';
@@ -30,7 +29,6 @@
 		}
 	}
 
-	/*
 	onMount(async () => {
 		_TODO[0] = await _get_init_items('http://localhost:8000/', 'todo');
 		if (_TODO[0] == '400_ERROR_NO_INIT_ITEM') {
@@ -45,7 +43,6 @@
 			_DONE = [];
 		}
 	});
-*/
 
 	beforeUpdate(() => {
 		_AUTOSCROLL =
@@ -69,8 +66,6 @@
 			_TEXTFIELD_TODO = '';
 		}
 	}
-
-
 
 	function _add_progress(_ITEM) {
 		if (_ITEM != undefined && _ITEM != '') {
@@ -103,32 +98,23 @@
 	<title>Kanban-Board</title>
 </svelte:head>
 
-
-
-
-<div class="flex  flex-wrap ">
-	<Column _TITLE = 'Todo' _URL_PARAM = "todo"/>
-	<Column _TITLE = 'In Progress' _URL_PARAM = "progress" />
-	<Column _TITLE = 'Done' _URL_PARAM = "done" />
-</div>
-
+<div class="">
 	<!--Make reusable columns!-->
-<!--
 	<div
-		class="  px-2  h-5/6     z-50 
-	 rounded-md w-full 
-		 grid-cols-2  grid"
+		class="  px-2  h-5/6   fixed  z-50 
+	 rounded-md content-start w-full 
+		 grid-cols-3  grid"
 	>
 		<div
 			class="col-span-1 border-t-2 bg-gray-300 border-l-2 border-r-2 
-		rounded-t-md border-gray-500  mr-2 overscroll-contain
+		rounded-t-md border-gray-500  mr-2 
 		{is_empty(_TODO) ? 'rounded-b-md  border-b-2' : ''}"
 		>
 			<h2 class="truncate text-center  text-2xl">ToDo:</h2>
 			<div
-				class="text-center  rounded-md 
-border-2  bg-gray-500 border-gray-500 p-1 m-2  {is_empty(_TODO) ? '' : 'border-b-2'} 
- max-h-full 	overscroll-contain"
+				class="text-center  overflow-hidden rounded-md 
+border-2  bg-gray-500  
+border-gray-500 p-1 m-2"
 			>
 				<div class="inline-block   rounded-sm p-2">
 					<input
@@ -144,22 +130,10 @@ border-2  bg-gray-500 border-gray-500 p-1 m-2  {is_empty(_TODO) ? '' : 'border-b
 					>
 				</div>
 			</div>
-
-				<div
-					bind:this={_DIV_TODO}
-					class="  px-1    max-h-full    	overflow-y-auto"
-				>
-					<div class="  rounded-md 		   col-span-1  ">
-						{#if !is_empty(_TODO)}
-							{#each _TODO as _ITEM}
-								<Item {_ITEM} />
-							{/each}
-						{/if}
-					</div>
-			</div>
 		</div>
-	-->
-		<!--
+
+
+		
 		<div
 			class="col-span-1 border-t-2 bg-gray-300 border-l-2 border-r-2
 			 rounded-t-md border-gray-500 mr-2 
@@ -213,8 +187,7 @@ border-gray-500 p-1 m-2"
 				</div>
 			</div>
 		</div>
-	-->
-<!--
+
 		<div class="max-h-full 	overflow-y-auto  ">
 			<div
 				bind:this={_DIV_TODO}
@@ -237,8 +210,7 @@ border-gray-500 p-1 m-2"
 				bind:this={_DIV_PROGRESS}
 				class="  px-1  {is_empty(_PROGRESS)
 					? ''
-					: 'border-b-2'}  border-r-2 border-l-2 rounded-b-md 
-					 bg-gray-300  
+					: 'border-b-2'}  border-r-2 border-l-2 rounded-b-md  bg-gray-300  
 				border-gray-500 mr-2  max-h-full    	overflow-y-auto"
 			>
 				<div class=" rounded-md   		col-span-1  ">
@@ -255,8 +227,7 @@ border-gray-500 p-1 m-2"
 				bind:this={_DIV_DONE}
 				class=" {is_empty(_DONE)
 					? ''
-					: 'border-b-2'}  px-1   border-r-2 border-l-2 rounded-b-md
-					 bg-gray-300  
+					: 'border-b-2'}  px-1   border-r-2 border-l-2 rounded-b-md bg-gray-300  
 				border-gray-500   max-h-full     	overflow-y-auto"
 			>
 				<div class=" rounded-md col-span-1  ">
@@ -268,10 +239,8 @@ border-gray-500 p-1 m-2"
 				</div>
 			</div>
 		</div>
-	-->
-	<!--
+	</div>
 </div>
--->
 
 <style>
 	@tailwind base;

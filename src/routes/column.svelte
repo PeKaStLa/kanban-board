@@ -54,38 +54,41 @@
 	};
 </script>
 
-
-<div class=" p-1  w-full sm:w-1/3 ">
-	<div class="truncate text-white  rounded-t-md 
+<div class=" p-1 sm:w-1/3  flex-auto sm:h-35/40 lg:h-36/40	">
+	<div
+		class="truncate text-white  rounded-t-md 
      py-1 
-    bg-gray-800 text-center  text-2xl">
+    bg-gray-800 text-center  text-2xl"
+	>
 		<h2>{_TITLE}</h2>
 	</div>
 	{#if !is_empty(_ARR)}
-		<div class="bg-gray-300 border-r-2 border-l-2
-        border-gray-200 py-1">
+		<div bind:this={_DIV}
+			class="bg-gray-300 border-r-2 border-l-2 
+            sm:max-h-full sm:overflow-y-auto
+        border-gray-200 py-1"
+		>
 			{#each _ARR as _ITEM}
 				<Item {_ITEM} />
 			{/each}
 		</div>
-	
 	{/if}
-    <div
-    class="text-center  rounded-b-md 
+	<div
+		class="text-center  rounded-b-md 
  bg-gray-400  p-1"
->
-    <div class="inline-block   rounded-sm p-1">
-        <input
-            class="rounded-sm w-full"
-            on:keypress={_on_key_press}
-            bind:value={_TEXTFIELD}
-            placeholder="enter an Item"
-        />
-    </div>
-    <div class="inline-block">
-        <button class="bg-gray-800 text-white rounded-md p-1 m-1 " on:click={() => _add(_TEXTFIELD)}
-            >Add Item</button
-        >
-    </div>
-</div>
+	>
+		<div class="inline-block   rounded-sm p-1">
+			<input
+				class="rounded-sm w-full"
+				on:keypress={_on_key_press}
+				bind:value={_TEXTFIELD}
+				placeholder="enter an Item"
+			/>
+		</div>
+		<div class="inline-block">
+			<button class="bg-gray-800 text-white rounded-md p-1 m-1 " on:click={() => _add(_TEXTFIELD)}
+				>Add Item</button
+			>
+		</div>
+	</div>
 </div>

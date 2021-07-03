@@ -13,28 +13,35 @@
 	let _TEXTFIELD_PROGRESS;
 	let _TEXTFIELD_DONE;
 
-	let _TODO = [];
-	let _PROGRESS = [];
-	let _DONE = [];
+	var _TODO = [];
+	var _PROGRESS = [];
+	var _DONE = [];
 
-	async function _get_init_items(_ARR, _URL, _URL_PARAM) {
+	async function _get_init_items(_URL, _URL_PARAM) {
 		const _RES = await fetch(_URL + _URL_PARAM);
 		const _RES_JSON = await _RES.json();
 		if (_RES.status == 200) {
-			_ARR.push(_RES_JSON[0].text);
-			console.log(_URL_PARAM + ' - status: 200');
-			return _ARR;
+			return _RES_JSON[0].text;
 		}
 		if (_RES.status == 400) {
-			console.log(_URL_PARAM + ' - status: 400');
-			console.log(_URL_PARAM + ' - error: ', _RES_JSON);
+			console.log(_URL_PARAM + ' - status: ', _RES.status, ' - error: ', _RES_JSON);
+			return '400_ERROR_NO_INIT_ITEM';
 		}
 	}
 
 	onMount(async () => {
-		_TODO = await _get_init_items(_TODO, 'http://peterstadler.com:7000/', 'todo');
-		_PROGRESS = await _get_init_items(_PROGRESS, 'http://peterstadler.com:7000/', 'progress');
-		_DONE = await _get_init_items(_DONE, 'http://localhost:8000/', 'done');
+		_TODO[0] = await _get_init_items('http://localhost:8000/', 'todo');
+		if (_TODO[0] == '400_ERROR_NO_INIT_ITEM') {
+			_TODO = [];
+		}
+		_PROGRESS[0] = await _get_init_items('http://localhost:8000/', 'progress');
+		if (_PROGRESS[0] == '400_ERROR_NO_INIT_ITEM') {
+			_PROGRESS = [];
+		}
+		_DONE[0] = await _get_init_items('http://localhost:8000/', 'done');
+		if (_DONE[0] == '400_ERROR_NO_INIT_ITEM') {
+			_DONE = [];
+		}
 	});
 
 	beforeUpdate(() => {
@@ -55,24 +62,21 @@
 
 	function _add_todo(_ITEM) {
 		if (_ITEM != undefined && _ITEM != '') {
-			_TODO.push(_ITEM);
-			_TODO = _TODO;
+			_TODO = [..._TODO, _ITEM];
 			_TEXTFIELD_TODO = '';
 		}
 	}
 
 	function _add_progress(_ITEM) {
 		if (_ITEM != undefined && _ITEM != '') {
-			_PROGRESS.push(_ITEM);
-			_PROGRESS = _PROGRESS;
+			_PROGRESS = [..._PROGRESS, _ITEM];
 			_TEXTFIELD_PROGRESS = '';
 		}
 	}
 
 	function _add_done(_ITEM) {
 		if (_ITEM != undefined && _ITEM != '') {
-			_DONE.push(_ITEM);
-			_DONE = _DONE;
+			_DONE = [..._DONE, _ITEM];
 			_TEXTFIELD_DONE = '';
 		}
 	}
@@ -106,7 +110,7 @@
 		rounded-t-md border-gray-500  mr-2 
 		{is_empty(_TODO) ? 'rounded-b-md  border-b-2' : ''}"
 		>
-		<h2 class=" overflow-ellipsis text-center overflow-hidden  text-2xl">ToDo:</h2>
+			<h2 class="truncate text-center  text-2xl">ToDo:</h2>
 			<div
 				class="text-center  overflow-hidden rounded-md 
 border-2  bg-gray-500  
@@ -132,7 +136,7 @@ border-gray-500 p-1 m-2"
 			 rounded-t-md border-gray-500 mr-2 
 			 {is_empty(_PROGRESS) ? 'rounded-b-md  border-b-2' : ''}"
 		>
-			<h2 class=" overflow-ellipsis text-center overflow-hidden  text-2xl">In Progress:</h2>
+			<h2 class=" truncate text-center  text-2xl">In Progress:</h2>
 			<div
 				class="text-center  rounded-md 
 border-2  bg-gray-500  
@@ -159,7 +163,7 @@ border-gray-500 p-1 m-2"
 			rounded-t-md border-gray-500 
 			 {is_empty(_DONE) ? 'rounded-b-md  border-b-2' : ''}"
 		>
-		<h2 class=" overflow-ellipsis text-center overflow-hidden  text-2xl">Done:</h2>
+			<h2 class="truncate text-center   text-2xl">Done:</h2>
 			<div
 				class="text-center  overflow-hidden rounded-md 
 border-2  bg-gray-500  

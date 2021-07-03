@@ -10,43 +10,6 @@
 	let _DIV_DONE;
 	let _AUTOSCROLL;
 
-	let _TEXTFIELD_TODO;
-	let _TEXTFIELD_PROGRESS;
-	let _TEXTFIELD_DONE;
-
-	var _TODO = [];
-	var _PROGRESS = [];
-	var _DONE = [];
-
-	async function _get_init_items(_URL, _URL_PARAM) {
-		const _RES = await fetch(_URL + _URL_PARAM);
-		const _RES_JSON = await _RES.json();
-		if (_RES.status == 200) {
-			return _RES_JSON[0].text;
-		}
-		if (_RES.status == 400) {
-			console.log(_URL_PARAM + ' - status: ', _RES.status, ' - error: ', _RES_JSON);
-			return '400_ERROR_NO_INIT_ITEM';
-		}
-	}
-
-	/*
-	onMount(async () => {
-		_TODO[0] = await _get_init_items('http://localhost:8000/', 'todo');
-		if (_TODO[0] == '400_ERROR_NO_INIT_ITEM') {
-			_TODO = [];
-		}
-		_PROGRESS[0] = await _get_init_items('http://localhost:8000/', 'progress');
-		if (_PROGRESS[0] == '400_ERROR_NO_INIT_ITEM') {
-			_PROGRESS = [];
-		}
-		_DONE[0] = await _get_init_items('http://localhost:8000/', 'done');
-		if (_DONE[0] == '400_ERROR_NO_INIT_ITEM') {
-			_DONE = [];
-		}
-	});
-*/
-
 	beforeUpdate(() => {
 		_AUTOSCROLL =
 			_DIV_TODO && _DIV_TODO.offsetHeight + _DIV_TODO.scrollTop > _DIV_TODO.scrollHeight - 20;
@@ -63,215 +26,19 @@
 		if (_AUTOSCROLL) _DIV_DONE.scrollTo(0, _DIV_DONE.scrollHeight);
 	});
 
-	function _add_todo(_ITEM) {
-		if (_ITEM != undefined && _ITEM != '') {
-			_TODO = [..._TODO, _ITEM];
-			_TEXTFIELD_TODO = '';
-		}
-	}
 
-
-
-	function _add_progress(_ITEM) {
-		if (_ITEM != undefined && _ITEM != '') {
-			_PROGRESS = [..._PROGRESS, _ITEM];
-			_TEXTFIELD_PROGRESS = '';
-		}
-	}
-
-	function _add_done(_ITEM) {
-		if (_ITEM != undefined && _ITEM != '') {
-			_DONE = [..._DONE, _ITEM];
-			_TEXTFIELD_DONE = '';
-		}
-	}
-
-	const _on_key_press_todo = (e) => {
-		if (e.charCode === 13) _add_todo(_TEXTFIELD_TODO);
-	};
-
-	const _on_key_press_progress = (e) => {
-		if (e.charCode === 13) _add_progress(_TEXTFIELD_PROGRESS);
-	};
-
-	const _on_key_press_done = (e) => {
-		if (e.charCode === 13) _add_done(_TEXTFIELD_DONE);
-	};
 </script>
 
 <svelte:head>
 	<title>Kanban-Board</title>
 </svelte:head>
 
-
-
-
-<div class="flex  flex-wrap ">
+<div class="flex pt-14 flex-wrap sm:h-screen w-full bg-cover">
 	<Column _TITLE = 'Todo' _URL_PARAM = "todo"/>
 	<Column _TITLE = 'In Progress' _URL_PARAM = "progress" />
 	<Column _TITLE = 'Done' _URL_PARAM = "done" />
 </div>
 
-	<!--Make reusable columns!-->
-<!--
-	<div
-		class="  px-2  h-5/6     z-50 
-	 rounded-md w-full 
-		 grid-cols-2  grid"
-	>
-		<div
-			class="col-span-1 border-t-2 bg-gray-300 border-l-2 border-r-2 
-		rounded-t-md border-gray-500  mr-2 overscroll-contain
-		{is_empty(_TODO) ? 'rounded-b-md  border-b-2' : ''}"
-		>
-			<h2 class="truncate text-center  text-2xl">ToDo:</h2>
-			<div
-				class="text-center  rounded-md 
-border-2  bg-gray-500 border-gray-500 p-1 m-2  {is_empty(_TODO) ? '' : 'border-b-2'} 
- max-h-full 	overscroll-contain"
-			>
-				<div class="inline-block   rounded-sm p-2">
-					<input
-						class="rounded-sm w-full"
-						on:keypress={_on_key_press_todo}
-						bind:value={_TEXTFIELD_TODO}
-						placeholder="enter an Item"
-					/>
-				</div>
-				<div class="inline-block">
-					<button class="bg-gray-100 rounded-md p-2 " on:click={() => _add_todo(_TEXTFIELD_TODO)}
-						>Add Item</button
-					>
-				</div>
-			</div>
-
-				<div
-					bind:this={_DIV_TODO}
-					class="  px-1    max-h-full    	overflow-y-auto"
-				>
-					<div class="  rounded-md 		   col-span-1  ">
-						{#if !is_empty(_TODO)}
-							{#each _TODO as _ITEM}
-								<Item {_ITEM} />
-							{/each}
-						{/if}
-					</div>
-			</div>
-		</div>
-	-->
-		<!--
-		<div
-			class="col-span-1 border-t-2 bg-gray-300 border-l-2 border-r-2
-			 rounded-t-md border-gray-500 mr-2 
-			 {is_empty(_PROGRESS) ? 'rounded-b-md  border-b-2' : ''}"
-		>
-			<h2 class=" truncate text-center  text-2xl">In Progress:</h2>
-			<div
-				class="text-center  rounded-md 
-border-2  bg-gray-500  
-border-gray-500 p-1 m-2"
-			>
-				<div class="inline-block   rounded-sm p-2">
-					<input
-						class="rounded-sm w-full"
-						on:keypress={_on_key_press_progress}
-						bind:value={_TEXTFIELD_PROGRESS}
-						placeholder="enter an Item"
-					/>
-				</div>
-				<div class="inline-block">
-					<button
-						class="bg-gray-100 rounded-md p-2"
-						on:click={() => _add_progress(_TEXTFIELD_PROGRESS)}>Add Item</button
-					>
-				</div>
-			</div>
-		</div>
-		<div
-			class="col-span-1 border-t-2 bg-gray-300  border-l-2 border-r-2 
-			rounded-t-md border-gray-500 
-			 {is_empty(_DONE) ? 'rounded-b-md  border-b-2' : ''}"
-		>
-			<h2 class="truncate text-center   text-2xl">Done:</h2>
-			<div
-				class="text-center  overflow-hidden rounded-md 
-border-2  bg-gray-500  
-border-gray-500 p-1 m-2"
-			>
-				<div class="inline-block   rounded-sm p-2">
-					<input
-						class="rounded-sm w-full"
-						on:keypress={_on_key_press_done}
-						bind:value={_TEXTFIELD_DONE}
-						placeholder="enter an Item"
-					/>
-				</div>
-				<div class="inline-block">
-					<button class="bg-gray-100 rounded-md p-2" on:click={() => _add_done(_TEXTFIELD_DONE)}
-						>Add Item</button
-					>
-				</div>
-			</div>
-		</div>
-	-->
-<!--
-		<div class="max-h-full 	overflow-y-auto  ">
-			<div
-				bind:this={_DIV_TODO}
-				class="  px-1 {is_empty(_TODO) ? '' : 'border-b-2'} 
-				  border-r-2 border-l-2 rounded-b-md  
-				bg-gray-300  
-			  border-gray-500 mr-2  max-h-full    	overflow-y-auto"
-			>
-				<div class="  rounded-md 		   col-span-1  ">
-					{#if !is_empty(_TODO)}
-						{#each _TODO as _ITEM}
-							<Item {_ITEM} />
-						{/each}
-					{/if}
-				</div>
-			</div>
-		</div>
-		<div class="max-h-full 	overflow-y-auto ">
-			<div
-				bind:this={_DIV_PROGRESS}
-				class="  px-1  {is_empty(_PROGRESS)
-					? ''
-					: 'border-b-2'}  border-r-2 border-l-2 rounded-b-md 
-					 bg-gray-300  
-				border-gray-500 mr-2  max-h-full    	overflow-y-auto"
-			>
-				<div class=" rounded-md   		col-span-1  ">
-					{#if !is_empty(_PROGRESS)}
-						{#each _PROGRESS as _ITEM}
-							<Item {_ITEM} />
-						{/each}
-					{/if}
-				</div>
-			</div>
-		</div>
-		<div class="max-h-full 	overflow-y-auto  ">
-			<div
-				bind:this={_DIV_DONE}
-				class=" {is_empty(_DONE)
-					? ''
-					: 'border-b-2'}  px-1   border-r-2 border-l-2 rounded-b-md
-					 bg-gray-300  
-				border-gray-500   max-h-full     	overflow-y-auto"
-			>
-				<div class=" rounded-md col-span-1  ">
-					{#if !is_empty(_DONE)}
-						{#each _DONE as _ITEM}
-							<Item {_ITEM} />
-						{/each}
-					{/if}
-				</div>
-			</div>
-		</div>
-	-->
-	<!--
-</div>
--->
 
 <style>
 	@tailwind base;

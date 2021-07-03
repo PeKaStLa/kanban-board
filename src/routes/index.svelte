@@ -132,6 +132,8 @@ border-gray-500 p-1 m-2"
 			</div>
 		</div>
 
+
+		
 		<div
 			class="col-span-1 border-t-2 bg-gray-300 border-l-2 border-r-2
 			 rounded-t-md border-gray-500 mr-2 

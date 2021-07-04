@@ -12,7 +12,7 @@
 </svelte:head>
 
 <div class="flex pt-14 flex-wrap sm:h-screen w-full bg-cover">
-	<Column _TITLE = 'Todo' _URL_PARAM = "todo"/>
+	<Column _TITLE = 'ToDo' _URL_PARAM = "todo"/>
 	<Column _TITLE = 'In Progress' _URL_PARAM = "progress" />
 	<Column _TITLE = 'Done' _URL_PARAM = "done" />
 </div>

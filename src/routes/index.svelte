@@ -5,28 +5,6 @@
 	import { is_empty, select_option } from 'svelte/internal';
 	import { onMount } from 'svelte';
 
-	let _DIV_TODO;
-	let _DIV_PROGRESS;
-	let _DIV_DONE;
-	let _AUTOSCROLL;
-
-	beforeUpdate(() => {
-		_AUTOSCROLL =
-			_DIV_TODO && _DIV_TODO.offsetHeight + _DIV_TODO.scrollTop > _DIV_TODO.scrollHeight - 20;
-		_AUTOSCROLL =
-			_DIV_PROGRESS &&
-			_DIV_PROGRESS.offsetHeight + _DIV_PROGRESS.scrollTop > _DIV_PROGRESS.scrollHeight - 20;
-		_AUTOSCROLL =
-			_DIV_DONE && _DIV_DONE.offsetHeight + _DIV_DONE.scrollTop > _DIV_DONE.scrollHeight - 20;
-	});
-
-	afterUpdate(() => {
-		if (_AUTOSCROLL) _DIV_TODO.scrollTo(0, _DIV_TODO.scrollHeight);
-		if (_AUTOSCROLL) _DIV_PROGRESS.scrollTo(0, _DIV_PROGRESS.scrollHeight);
-		if (_AUTOSCROLL) _DIV_DONE.scrollTo(0, _DIV_DONE.scrollHeight);
-	});
-
-
 </script>
 
 <svelte:head>

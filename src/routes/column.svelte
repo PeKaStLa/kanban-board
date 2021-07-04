@@ -63,8 +63,8 @@
 		<div class=" inline-block"><h2>{_TITLE}</h2></div>
 		<div class="inline-block ">
 			<div
-			class="absolute top-1 right-1 text-center  w-min rounded-md hover:text-white
-		text-transparent hover:bg-gray-400 bg-transparent pr-2 pb-0.5 pl-1"	>
+			class="absolute top-1 right-1 text-center  w-min rounded-md hover:text-gray-200
+		text-transparent hover:bg-gray-500 bg-transparent pr-2 pb-0.5 pl-1"	>
 			<button>
 				<svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
 					<path stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />

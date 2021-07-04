@@ -57,14 +57,26 @@
 
 <div class=" p-1 sm:w-1/3  flex-auto sm:h-36/40	">
 	<div
-		class="truncate text-white  rounded-t-md 
-     py-1 
-    bg-gray-800 text-center  text-2xl"
+		class=" relative truncate text-white  rounded-t-md 
+     py-1     bg-gray-800 text-center  text-2xl "
 	>
-		<h2>{_TITLE}</h2>
+		<div class=" inline-block"><h2>{_TITLE}</h2></div>
+		<div class="inline-block ">
+			<div
+			class="absolute top-1 right-1 text-center  w-min rounded-md hover:text-white
+		text-transparent hover:bg-gray-400 bg-transparent pr-2 pb-0.5 pl-1"	>
+			<button>
+				<svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
+					<path stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+				</svg>
+			</button>
+		</div>
+	
+		</div>
 	</div>
 	{#if !is_empty(_ARR)}
-		<div bind:this={_DIV}
+		<div
+			bind:this={_DIV}
 			class="bg-gray-300 border-r-2 border-l-2 
             sm:max-h-full sm:overflow-y-auto
         border-gray-200 py-1"
@@ -74,24 +86,25 @@
 			{/each}
 		</div>
 	{/if}
-	<div
-		class="text-center  rounded-b-md  bg-gray-400  p-1" 
-	>
+	<div class="text-center  rounded-b-md  bg-gray-400  p-1">
 		<div class="inline 	   rounded-sm p-1">
 			<input
-			bind:this={_TEXTFIELD}
-				class="rounded-sm w-1/2"
+				bind:this={_TEXTFIELD}
+				class="rounded-sm w-1/2 "
 				on:keypress={_on_key_press}
 				bind:value={_TEXTFIELD_VALUE}
 				placeholder="enter an Item"
 			/>
 		</div>
 		<div class="inline 	">
-			<button 
-			class="bg-gray-800 text-white rounded-md p-1 m-1 "
-			 on:click={() => {_add(_TEXTFIELD_VALUE); _TEXTFIELD.focus();}}
-				>Add Item</button
+			<button
+				class="bg-gray-800 text-white rounded-md p-1 m-1 hover:bg-gray-200  hover:text-black"
+				on:click={() => {
+					_add(_TEXTFIELD_VALUE);
+					_TEXTFIELD.focus();
+				}}>Add Item</button
 			>
 		</div>
 	</div>
+	
 </div>

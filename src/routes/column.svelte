@@ -8,15 +8,15 @@
 	export let _URL_PARAM = 'no URL-Param';
 
 	let _URL = 'http://localhost:8000/';
-	let _ARR = [];
+	let _ARR: string[] = [];
 
-	let _DIV;
-	let _AUTOSCROLL;
+	let _DIV: HTMLDivElement;
+	let _AUTOSCROLL: boolean;
 
-	let _TEXTFIELD_VALUE;
-	let _TEXTFIELD;
+	let _TEXTFIELD_VALUE: string;
+	let _TEXTFIELD: HTMLInputElement;
 
-	async function _get_init_items(_URL, _URL_PARAM) {
+	async function _get_init_items(_URL: string, _URL_PARAM: string) {
 		const _RES = await fetch(_URL + _URL_PARAM);
 		const _RES_JSON = await _RES.json();
 		if (_RES.status == 200) {
@@ -43,7 +43,7 @@
 		if (_AUTOSCROLL) _DIV.scrollTo(0, _DIV.scrollHeight);
 	});
 
-	function _add(_ITEM) {
+	function _add(_ITEM: string) {
 		if (_ITEM != undefined && _ITEM != '') {
 			_ARR = [..._ARR, _ITEM];
 			_TEXTFIELD_VALUE = '';

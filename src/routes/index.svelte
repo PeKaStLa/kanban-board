@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Item from './item.svelte';
 	import Column from './column.svelte';
 	import { beforeUpdate, afterUpdate } from 'svelte';
 	import { is_empty, select_option } from 'svelte/internal';

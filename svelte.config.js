@@ -16,10 +16,14 @@ const config = {
 
 
 export default {
+	preprocess: preprocess(),
 	kit: {
+		target: '#svelte',
 		adapter: node({ out: 'kanban-output' })
 
 	}
 };
+
+
 
 //export default config;
